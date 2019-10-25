@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <style>
+            textarea {
+	width: 600px;
+	height: 120px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+        </style>
+        <script>
+function setbg(color)
+{
+document.getElementById("styled").style.background=color
+}
+
+function submitClick()
+{
+const queryText = document.getElementById("styled").value
+var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+var theUrl = "/convert";
+xmlhttp.open("POST", theUrl);
+xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xmlhttp.send(JSON.stringify({ "query": "select * from table"}));
+
+xmlhttp.onreadystatechange = function () {
+  var DONE = 4; // readyState 4 means the request is done.
+  var OK = 200; // status 200 is a successful return.
+  if (xmlhttp.readyState === DONE) {
+    if (xmlhttp.status === OK) {
+      console.log(xmlhttp.responseText); // 'This is the returned text.'
+        document.getElementById("output").value = xmlhttp.responseText
+    } else {
+      console.log('Error: ' + xmlhttp.status); // An error occurred during the request.
+    }
+  }
+};
+}
+        </script>
+    </head>
+    <body>
+    <section>
+    <div>
+    <textarea name="styled-textarea" id="styled" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')">Enter your comment here...</textarea>
+    </div>
+    <button type="button" onclick="submitClick()">Submit</button>
+    </section>
+    <section>
+        <textarea name="styled-textarea" id="output">Output here...</textarea>
+    </section>
+    </body>
+</html>
